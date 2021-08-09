@@ -55,34 +55,31 @@ for i in range(len(db_interface)):
         k = k+1 # number
         line.append(k)
 
-        try:
+        if "Cisco-IOS-XE-ethernet:service" in dat[j].keys():
             line.append(dat[j]["Cisco-IOS-XE-ethernet:service"]['instance'][0]['id']) # id
-        except KeyError: 
+        else: 
             line.append(None)
         
-        try:
+        if 'name' in dat[j].keys():
             line.append(db_interface[i] + str(dat[j]['name']))# name
-        except KeyError:
+        else:
             line.append(None)
 
-        try:
+        if 'description' in dat[j].keys():
             line.append(dat[j]['description']) #description
-        except KeyError:
+        else:
             line.append(None)   
 
-        try:
-            line.append(json.dumps(dat[j])) # config
-        except KeyError:
-            line.append(None)
-
-        try:
+        line.append(json.dumps(dat[j])) # config
+        
+        if 'Cisco-IOS-XE-ethernet:channel-group' in dat[j].keys():
             line.append(dat[j]['Cisco-IOS-XE-ethernet:channel-group']['number']) #Port channel
-        except KeyError:
+        else:
             line.append(None)
         
-        try:
+        if 'mtu' in dat[j].keys():
             line.append(dat[j]['mtu']) # max frame size
-        except KeyError:
+        else:
             line.append(None)
         
         db.append(line)
